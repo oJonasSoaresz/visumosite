@@ -15,133 +15,122 @@
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background: var(--bg); color: var(--white); font-family: var(--sora); overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Cursor apenas para Desktop */
+        @media (pointer: fine) {
+            * { cursor: none; }
+            #cursor { position: fixed; width: 8px; height: 8px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
+            #cursor-aura { position: fixed; width: 50px; height: 50px; border: 1px solid var(--petroleo); border-radius: 50%; pointer-events: none; z-index: 10000; transition: transform 0.2s var(--ease); }
+        }
 
-        /* Camada de Grão Cinematográfico */
+        body { background: var(--bg); color: var(--white); font-family: var(--sora); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* Grão Cinematográfico */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://grainy-gradients.vercel.app/noise.svg');
             opacity: 0.05; pointer-events: none; z-index: 9999;
         }
 
-        /* Custom Cursor */
-        #cursor { position: fixed; width: 8px; height: 8px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
-        #cursor-aura { position: fixed; width: 50px; height: 50px; border: 1px solid var(--petroleo); border-radius: 50%; pointer-events: none; z-index: 10000; transition: transform 0.2s var(--ease); }
-
-        /* HEADER TRANSPARENTE */
+        /* HEADER */
         header {
-            position: fixed; top: 0; width: 100%; height: 100px;
+            position: fixed; top: 0; width: 100%; height: 80px;
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 6%; z-index: 1000;
+            padding: 0 6%; z-index: 1000; transition: 0.5s var(--ease);
         }
 
-        .logo-img { height: 22px; filter: drop-shadow(0 0 15px rgba(0,242,255,0.4)); }
+        .logo-img { height: 18px; filter: drop-shadow(0 0 15px rgba(0,242,255,0.4)); }
         .nav-links { display: flex; gap: 40px; font-size: 0.6rem; font-weight: 800; letter-spacing: 4px; }
+        
+        .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .menu-toggle span { width: 25px; height: 2px; background: var(--white); transition: 0.3s; }
 
-        /* HERO COM VÍDEO BG */
+        /* HERO */
         .hero {
-            position: relative;
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            padding: 0 10%;
-            overflow: hidden;
+            position: relative; height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; padding: 0 8%; overflow: hidden;
         }
 
         .hero-video-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-            filter: saturate(1.2) brightness(0.7);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -2; filter: saturate(1.1) brightness(0.6);
         }
 
         .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.3) 0%, var(--bg) 95%);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, var(--bg) 95%);
             z-index: -1;
         }
 
-        .hero span { 
-            position: relative;
-            color: var(--petroleo); 
-            font-weight: 800; 
-            font-size: 0.8rem; 
-            letter-spacing: 10px; 
-            margin-bottom: 20px;
-            z-index: 1;
-        }
-
-        .hero h1 { 
-            position: relative;
-            font-size: clamp(3rem, 12vw, 9rem); 
-            font-weight: 800; 
-            line-height: 0.9; 
-            letter-spacing: -4px; 
-            z-index: 1;
-        }
+        .hero span { color: var(--petroleo); font-weight: 800; font-size: 0.7rem; letter-spacing: 8px; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(2.8rem, 10vw, 8rem); font-weight: 800; line-height: 0.95; letter-spacing: -3px; }
         .hero h1 i { color: transparent; -webkit-text-stroke: 1px var(--white); font-style: normal; }
 
-        /* SEÇÃO: MANIFESTO */
-        .manifesto { padding: 150px 10%; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
-        .manifesto h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 600; line-height: 1.1; }
-        .manifesto p { font-size: 1.2rem; color: var(--grey); line-height: 1.8; font-weight: 300; }
-
-        /* SEÇÃO: PROJETOS (POLAROIDS 3D) */
-        .projects-section { padding: 100px 10%; background: #020202; }
+        /* PROJETOS (POLAROIDS) */
+        .projects-section { padding: 100px 8%; background: #020202; }
         .grid-6 {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 60px; margin-top: 60px; perspective: 1500px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px; perspective: 1500px;
         }
+
         .polaroid {
-            background: #fff; padding: 18px 18px 80px 18px;
-            transform-style: preserve-3d; transition: 0.1s var(--ease);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            background: #fff; padding: 18px 18px 70px 18px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            transform-style: preserve-3d;
+            transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
+            will-change: transform;
         }
+
         .polaroid-img { width: 100%; aspect-ratio: 1/1; background: #000; overflow: hidden; }
-        .polaroid img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(0.7); transition: 0.8s var(--ease); }
-        .polaroid:hover img { filter: grayscale(0) brightness(1); transform: scale(1.1); }
-        .polaroid h3 { color: #111; font-weight: 800; font-size: 1.1rem; margin-top: 25px; letter-spacing: -1px; }
+        .polaroid img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(1) brightness(0.7); 
+            transition: 0.8s var(--ease); 
+        }
 
-        /* SERVIÇOS KINÉTICOS */
-        .services-list { padding: 150px 10%; }
+        /* Interação Hover (Desktop) */
+        @media (pointer: fine) {
+            .polaroid:hover { transform: scale(1.05) translateZ(50px); z-index: 10; }
+            .polaroid:hover img { filter: grayscale(0) brightness(1); transform: scale(1.1); }
+        }
+
+        /* Interação "Revelar" (Mobile/Scroll) */
+        .polaroid.revealed { filter: grayscale(0); }
+        .polaroid.revealed img { filter: grayscale(0.2) brightness(0.9); }
+
+        .polaroid h3 { color: #111; font-weight: 800; font-size: 1rem; margin-top: 25px; letter-spacing: -1px; }
+
+        /* SERVIÇOS */
+        .services-list { padding: 100px 8%; }
         .service-row {
-            border-bottom: 1px solid rgba(255,255,255,0.1); padding: 70px 0;
-            display: flex; justify-content: space-between; align-items: center;
-            position: relative; overflow: hidden; transition: 0.5s;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding: 60px 0;
+            display: flex; flex-direction: column; position: relative; transition: 0.4s;
         }
-        .service-row:hover { padding-left: 30px; border-bottom-color: var(--petroleo); }
-        .service-row h4 { font-size: clamp(2rem, 6vw, 5rem); font-weight: 800; text-transform: uppercase; z-index: 2; transition: 0.4s; }
-        .service-row:hover h4 { font-style: italic; color: var(--petroleo); }
-        
-        .reveal-bg {
-            position: absolute; top: 50%; left: 50%; width: 0; height: 0;
-            background: radial-gradient(circle, var(--petroleo) 0%, transparent 70%);
-            transform: translate(-50%, -50%); opacity: 0; transition: 0.8s var(--ease);
-            pointer-events: none; filter: blur(60px);
-        }
-        .service-row:hover .reveal-bg { width: 100%; height: 400px; opacity: 0.3; }
+        .service-row h4 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 800; text-transform: uppercase; }
+        .service-desc { font-size: 1rem; color: var(--petroleo); margin-top: 15px; font-weight: 600; opacity: 0.6; }
 
-        /* CTA FINAL */
-        .cta { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--white); color: var(--bg); text-align: center; }
-        .cta h2 { font-size: clamp(3rem, 12vw, 12rem); font-weight: 800; line-height: 0.8; margin-bottom: 50px; }
-        .cta-btn { padding: 25px 80px; border: 2px solid var(--bg); font-weight: 800; letter-spacing: 5px; text-decoration: none; color: var(--bg); transition: 0.4s; }
+        /* CTA */
+        .cta { height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--white); color: var(--bg); text-align: center; padding: 0 8%; }
+        .cta h2 { font-size: clamp(3rem, 11vw, 9rem); font-weight: 800; line-height: 0.85; margin-bottom: 40px; }
+        .cta-btn { padding: 25px 60px; border: 2px solid var(--bg); font-weight: 800; letter-spacing: 4px; text-decoration: none; color: var(--bg); transition: 0.4s; }
+        .cta-btn:hover { background: var(--bg); color: var(--white); }
 
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s var(--ease); }
+        /* ANIMAÇÕES */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s var(--ease); }
         .revealed { opacity: 1; transform: translateY(0); }
 
+        /* RESPONSIVIDADE */
         @media (max-width: 900px) {
-            .nav-links { display: none; }
-            header { height: 80px; }
+            .nav-links { 
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; 
+                background: var(--bg); flex-direction: column; justify-content: center; 
+                align-items: center; transition: 0.6s var(--ease); z-index: 999; font-size: 1.2rem;
+            }
+            .nav-links.active { right: 0; }
+            .menu-toggle { display: flex; }
+            .grid-6 { gap: 40px; }
+            .polaroid { padding: 12px 12px 50px 12px; }
         }
     </style>
 </head>
@@ -150,8 +139,12 @@
     <div id="cursor"></div>
     <div id="cursor-aura"></div>
 
-    <header>
+    <header id="header">
         <img src="Logotipo Tipográfico PNG (3).png" class="logo-img" alt="VIZZUMO">
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+        </div>
         <nav class="nav-links">
             <span>MANIFESTO</span>
             <span>PORTFÓLIO</span>
@@ -166,14 +159,8 @@
                 <source src="Create_gradient_movement_loop_a48ad9db5e.mp4" type="video/mp4">
             </video>
             <div class="hero-overlay"></div>
-
             <span class="reveal">ESTÚDIO DE BRANDING</span>
             <h1 class="reveal">DESIGN QUE<br>ALIMENTA O <i>DESEJO</i>.</h1>
-        </section>
-
-        <section class="manifesto">
-            <h2 class="reveal">O primeiro prato<br>é servido pelos olhos.</h2>
-            <p class="reveal">A Vizzumo funde o minimalismo funcional com a sofisticação da gastronomia. Não criamos apenas logotipos; desenhamos sistemas de identidade que elevam o ticket médio através do desejo visual.</p>
         </section>
 
         <section class="projects-section">
@@ -182,7 +169,7 @@
                     <div class="polaroid-img"><img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800"></div>
                     <h3>NOIR BISTRO</h3>
                 </div>
-                <div class="polaroid reveal" data-tilt style="margin-top: 60px;">
+                <div class="polaroid reveal" data-tilt>
                     <div class="polaroid-img"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800"></div>
                     <h3>OCEAN GRILL</h3>
                 </div>
@@ -190,15 +177,7 @@
                     <div class="polaroid-img"><img src="https://images.unsplash.com/photo-1550966841-3ee3282270bb?q=80&w=800"></div>
                     <h3>MINIMAL PASTA</h3>
                 </div>
-                <div class="polaroid reveal" data-tilt style="margin-top: 60px;">
-                    <div class="polaroid-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800"></div>
-                    <h3>ESSENCE CAFÉ</h3>
-                </div>
                 <div class="polaroid reveal" data-tilt>
-                    <div class="polaroid-img"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800"></div>
-                    <h3>RAW KITCHEN</h3>
-                </div>
-                <div class="polaroid reveal" data-tilt style="margin-top: 60px;">
                     <div class="polaroid-img"><img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=800"></div>
                     <h3>URBAN STEAK</h3>
                 </div>
@@ -207,19 +186,12 @@
 
         <section class="services-list">
             <div class="service-row reveal">
-                <div class="reveal-bg"></div>
                 <h4>Identidade Visual</h4>
-                <div class="service-desc" style="opacity: 0; transition: 0.5s;"><p>DNA visual completo e manuais de marca.</p></div>
+                <div class="service-desc">O DNA visual da sua gastronomia.</div>
             </div>
             <div class="service-row reveal">
-                <div class="reveal-bg"></div>
                 <h4>Estratégia</h4>
-                <div class="service-desc" style="opacity: 0; transition: 0.5s;"><p>Posicionamento para nichos gastronômicos.</p></div>
-            </div>
-            <div class="service-row reveal">
-                <div class="reveal-bg"></div>
-                <h4>Menu Design</h4>
-                <div class="service-desc" style="opacity: 0; transition: 0.5s;"><p>Engenharia de vendas através do design tátil.</p></div>
+                <div class="service-desc">Posicionamento focado em ticket médio.</div>
             </div>
         </section>
 
@@ -230,39 +202,56 @@
     </main>
 
     <script>
+        // Cursor customizado (apenas se houver mouse)
         const cursor = document.getElementById('cursor');
         const aura = document.getElementById('cursor-aura');
+        if(cursor && window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                aura.animate({ left: (e.clientX - 25) + 'px', top: (e.clientY - 25) + 'px' }, { duration: 500, fill: "forwards" });
+            });
+        }
 
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            aura.animate({
-                left: (e.clientX - 25) + 'px',
-                top: (e.clientY - 25) + 'px'
-            }, { duration: 500, fill: "forwards" });
+        // Tilt 3D (Apenas Desktop para não quebrar o scroll mobile)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.querySelectorAll('[data-tilt]').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) - rect.width/2;
+                    const y = (e.clientY - rect.top) - rect.height/2;
+                    card.style.transform = `perspective(1000px) rotateY(${x/15}deg) rotateX(${-y/15}deg) scale(1.05)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'rotateY(0) rotateX(0) scale(1)';
+                });
+            });
+        }
+
+        // Menu Mobile Toggle
+        const menuBtn = document.getElementById('mobile-menu');
+        const nav = document.querySelector('.nav-links');
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuBtn.classList.toggle('active');
         });
 
-        document.querySelectorAll('[data-tilt]').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) - rect.width/2;
-                const y = (e.clientY - rect.top) - rect.height/2;
-                card.style.transform = `perspective(1000px) rotateY(${x/10}deg) rotateX(${-y/10}deg) scale(1.03)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateY(0) rotateX(0) scale(1)';
-            });
-        });
-
+        // Revelar ao scroll (Intersection Observer)
         const observer = new IntersectionObserver(entries => {
-            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
-        }, { threshold: 0.1 });
+            entries.forEach(e => { 
+                if(e.isIntersecting) {
+                    e.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.2 });
+
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Hover effect for services
-        document.querySelectorAll('.service-row').forEach(row => {
-            row.addEventListener('mouseenter', () => { row.querySelector('.service-desc').style.opacity = '1'; });
-            row.addEventListener('mouseleave', () => { row.querySelector('.service-desc').style.opacity = '0'; });
+        // Header glass effect no scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            header.style.background = window.scrollY > 100 ? "rgba(5,5,5,0.8)" : "transparent";
+            header.style.backdropFilter = window.scrollY > 100 ? "blur(10px)" : "none";
         });
     </script>
 </body>
